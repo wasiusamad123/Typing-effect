@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Typing Effect</title>
+    <style>
+        #typing-effect {
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="typing-effect"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+$(document).ready(function() {
+    var words = ['Hello Ladies and Gentlemen', 'You can control the typing speed is needed', 'Thanks for viewing this page', 'Don't forget to follow me wasiusamad123'];
+    var currentWordIndex = 0;
+    var currentWord = '';
+    var isDeleting = false;
+    var typingSpeed = 150; // Adjust this value to control the typing speed
+    var deleteSpeed = 75; // Adjust this value to control the deleting speed
+    var delayBetweenWords = 2000; // Adjust this value to control the delay between words
+
+    function type() {
+        if (isDeleting) {
+            currentWord = currentWord.slice(0, -1);
+        } else {
+            currentWord = words[currentWordIndex].substring(0, currentWord.length + 1);
+        }
+
+        $('#typing-effect').text(currentWord);
+
+        if (!isDeleting && currentWord === words[currentWordIndex]) {
+            isDeleting = true;
+            setTimeout(type, delayBetweenWords);
+        } else if (isDeleting && currentWord === '') {
+            isDeleting = false;
+            currentWordIndex = (currentWordIndex + 1) % words.length;
+            setTimeout(type, typingSpeed);
+        } else {
+            setTimeout(type, isDeleting ? deleteSpeed : typingSpeed);
+        }
+    }
+
+    type();
+});
+
+</script>
+</body>
+</html>
